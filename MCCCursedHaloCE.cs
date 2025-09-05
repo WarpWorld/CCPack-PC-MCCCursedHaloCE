@@ -80,6 +80,11 @@ public partial class MCCCursedHaloCE : InjectEffectPack
         return isReady;
     }
 
+    protected override GameState GetGameState()
+    {
+        return base.GetGameState();
+    }
+
     private bool IsInGameplayAndPointersAreOk(EffectRequest request)
     {
         if (!IsInGameplay())
