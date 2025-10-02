@@ -147,7 +147,7 @@ public partial class MCCCursedHaloCE : InjectEffectPack
 
     private string[] ReplaceWithRandomEffect()
     {
-        int index = new Random().Next(1, Effects.Count);
+        int index = RNG.Next(1, Effects.Count);
         Effect effect = Effects.Values.Skip(index).First();
                 
         return effect.ID.Split('_');
@@ -406,9 +406,8 @@ public partial class MCCCursedHaloCE : InjectEffectPack
                     case "up": ApplyMovementEveryFrame(request, 0, -130, "put your hands up to the sky.", "Your arms are too tired for this."); break;
                     case "spin": ApplyMovementEveryFrame(request, 130, 0, "started the S.P.E.E.N. protocol.", "S.P.E.E.N. protocol completed"); break;
                     case "drift":
-                        Random rng = new Random();
-                        int dx = rng.Next(-15, 15);
-                        int dy = rng.Next(-15, 15);
+                        int dx = RNG.Next(-15, 15);
+                        int dy = RNG.Next(-15, 15);
 
                         ApplyMovementEveryFrame(request, dx, dy, "made your joycon drift. Yes, on keyboard and mouse.", "fixed your joycon.");
                         break;

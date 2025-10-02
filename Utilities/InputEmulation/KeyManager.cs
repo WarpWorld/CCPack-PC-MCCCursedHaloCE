@@ -12,6 +12,8 @@ namespace CrowdControl.Games.Packs.MCCCursedHaloCE.Utilities.InputEmulation;
 /// <remarks>Most functions just change the state in this class. You need to call UpdateKeyBindings to actually change the game bindings.</remarks>
 public class KeyManager
 {
+    private readonly Random RNG = new Random();
+    
     private const long FirstKeybindOffset = 0x2B05630;
     private const byte UnbindKeycode = 0xE8; // This is an unassigned virtual key code, according to the documentation.
 
@@ -362,16 +364,14 @@ public class KeyManager
     // Swaps a control with a random one, not repeating.
     private bool ShuffleControls(List<GameAction> actions)
     {
-        Random rng = new Random();
-
-        GameAction firstAction = actions[rng.Next(actions.Count)];
+        GameAction firstAction = actions[RNG.Next(actions.Count)];
         byte firstActionKeyCode = SwappableKeybinds[firstAction].currentBinding;
         actions.Remove(firstAction);
 
         GameAction lastPickedAction = firstAction;
         while (actions.Count > 0)
         {
-            GameAction pickedAction = actions[rng.Next(actions.Count)];
+            GameAction pickedAction = actions[RNG.Next(actions.Count)];
             SwappableKeybinds[lastPickedAction].TrySwap(SwappableKeybinds[pickedAction].currentBinding);
             lastPickedAction = pickedAction;
             actions.Remove(lastPickedAction);
