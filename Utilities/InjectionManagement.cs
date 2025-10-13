@@ -55,7 +55,7 @@ public partial class MCCCursedHaloCE
             {
                 CcLog.Debug("Removing cave");
                 AddressChain.Absolute(Connector, caveAddress).SetBytes(Enumerable.Repeat((byte)0x00, size).ToArray());
-                FreeCave(ProcessName, new IntPtr(caveAddress), size);
+                FreeCave(ProcessName, new(caveAddress), size);
             }
             catch
             {
@@ -85,7 +85,7 @@ public partial class MCCCursedHaloCE
     {
         if (!injectionPoint_ch.Calculate(out long injectionPointAddress))
         {
-            throw new Exception("Injection point could not be calculated.");
+            throw new("Injection point could not be calculated.");
         }
 
         byte[] originalBytes = injectionPoint_ch.GetBytes(bytesToReplaceLength);
@@ -106,7 +106,7 @@ public partial class MCCCursedHaloCE
     {
         if (caveContents.Length > StandardCaveSizeBytes)
         {
-            throw new Exception("Cave bytes are longer than standard allocation.");
+            throw new("Cave bytes are longer than standard allocation.");
         }
 
         IntPtr cavePointer = CreateCodeCave(ProcessName, StandardCaveSizeBytes);

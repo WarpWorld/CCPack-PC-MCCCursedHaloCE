@@ -12,32 +12,31 @@ namespace CrowdControl.Games.Packs.MCCCursedHaloCE.Utilities.InputEmulation;
 /// <remarks>Most functions just change the state in this class. You need to call UpdateKeyBindings to actually change the game bindings.</remarks>
 public class KeyManager
 {
-    private readonly Random RNG = new Random();
+    private readonly Random RNG = new();
     
     private const long FirstKeybindOffset = 0x2B05630;
     private const byte UnbindKeycode = 0xE8; // This is an unassigned virtual key code, according to the documentation.
 
-    private static readonly HashSet<GameAction> MovementKeys = new HashSet<GameAction>
-        { GameAction.RunForward, GameAction.RunBackwards, GameAction.StrafeLeft, GameAction.StrafeRight };
+    private static readonly HashSet<GameAction> MovementKeys = new() { GameAction.RunForward, GameAction.RunBackwards, GameAction.StrafeLeft, GameAction.StrafeRight };
 
     // Does not include Pause
     private Dictionary<GameAction, KeybindData> SwappableKeybinds = new()
     {
-        { GameAction.Jump, new KeybindData(0) },
-        { GameAction.SwapGrenades, new KeybindData(1) },
-        { GameAction.Use, new KeybindData(2) },
-        { GameAction.Reload, new KeybindData(3) },
-        { GameAction.SwapWeapons, new KeybindData(4) },
-        { GameAction.Melee, new KeybindData(5) },
-        { GameAction.FlashlightToggle, new KeybindData(6) },
-        { GameAction.ThrowGrenade, new KeybindData(7) },
-        { GameAction.Fire, new KeybindData(8) },
-        { GameAction.Crouch, new KeybindData(9) },
-        { GameAction.ZoomHold, new KeybindData(10) },
-        { GameAction.RunForward, new KeybindData(16) },
-        { GameAction.RunBackwards, new KeybindData(17) },
-        { GameAction.StrafeLeft, new KeybindData(18) },
-        { GameAction.StrafeRight, new KeybindData(19) },
+        { GameAction.Jump, new(0) },
+        { GameAction.SwapGrenades, new(1) },
+        { GameAction.Use, new(2) },
+        { GameAction.Reload, new(3) },
+        { GameAction.SwapWeapons, new(4) },
+        { GameAction.Melee, new(5) },
+        { GameAction.FlashlightToggle, new(6) },
+        { GameAction.ThrowGrenade, new(7) },
+        { GameAction.Fire, new(8) },
+        { GameAction.Crouch, new(9) },
+        { GameAction.ZoomHold, new(10) },
+        { GameAction.RunForward, new(16) },
+        { GameAction.RunBackwards, new(17) },
+        { GameAction.StrafeLeft, new(18) },
+        { GameAction.StrafeRight, new(19) },
     };
 
     public IPCConnector connector;
@@ -57,10 +56,10 @@ public class KeyManager
 
         Input[] inputs =
         {
-            new Input
+            new()
             {
                 type = (int) InputType.Mouse,
-                u = new InputUnion
+                u = new()
                 {
                     mi = mouseInput,
                 }
@@ -209,12 +208,12 @@ public class KeyManager
     {
         if (!AreKeyBindsInitialized())
         {
-            throw new Exception("Keybinds are not yet initialized, I don't know what to press.");
+            throw new("Keybinds are not yet initialized, I don't know what to press.");
         }
 
         if (!SwappableKeybinds.TryGetValue(action, out KeybindData data))
         {
-            throw new Exception("Unknown action.");
+            throw new("Unknown action.");
         }
 
         SendKeyCodeNoChecks(data.currentBinding, isKeyUp);

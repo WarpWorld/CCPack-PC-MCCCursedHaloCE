@@ -36,13 +36,13 @@ public partial class MCCCursedHaloCE : InjectEffectPack
     public MCCCursedHaloCE(UserRecord player, Func<CrowdControlBlock, bool> responseHandler, Action<object> statusUpdateHandler)
         : base(player, responseHandler, statusUpdateHandler)
     {
-        VersionProfiles = new List<VersionProfile>
+        VersionProfiles = new()
         {
             new(ProcessName, InitGame, DeinitGame, null),
         };
 
         instance = this;
-        keyManager = new KeyManager();
+        keyManager = new();
     }
 
     private void InitGame()

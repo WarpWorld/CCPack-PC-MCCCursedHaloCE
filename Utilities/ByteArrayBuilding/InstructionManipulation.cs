@@ -138,7 +138,7 @@ public partial class MCCCursedHaloCE
         {
             if (absoluteJumpBytes.Length > replacedBytesLength)
             {
-                throw new Exception("Jump bytes are longer than specified replaced bytes length");
+                throw new("Jump bytes are longer than specified replaced bytes length");
             }
 
             absoluteJumpBytes = PadWithNops(absoluteJumpBytes, replacedBytesLength - absoluteJumpBytes.Length);
