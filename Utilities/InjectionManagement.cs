@@ -1,6 +1,6 @@
-﻿using System.Diagnostics;
-using ConnectorLib;
+﻿using ConnectorLib;
 using ConnectorLib.Inject.Exceptions;
+using System.Diagnostics;
 using AddressChain = ConnectorLib.Memory.AddressChain<ConnectorLib.Inject.InjectConnector>;
 using CcLog = CrowdControl.Common.Log;
 
@@ -55,7 +55,7 @@ public partial class MCCCursedHaloCE
             {
                 CcLog.Debug("Removing cave");
                 AddressChain.Absolute(Connector, caveAddress).SetBytes(Enumerable.Repeat((byte)0x00, size).ToArray());
-                FreeCave(ProcessName, new(caveAddress), size);
+                FreeCave(ProcessName, new IntPtr(caveAddress), size);
             }
             catch
             {
@@ -85,7 +85,7 @@ public partial class MCCCursedHaloCE
     {
         if (!injectionPoint_ch.Calculate(out long injectionPointAddress))
         {
-            throw new("Injection point could not be calculated.");
+            throw new Exception("Injection point could not be calculated.");
         }
 
         byte[] originalBytes = injectionPoint_ch.GetBytes(bytesToReplaceLength);
@@ -106,7 +106,7 @@ public partial class MCCCursedHaloCE
     {
         if (caveContents.Length > StandardCaveSizeBytes)
         {
-            throw new("Cave bytes are longer than standard allocation.");
+            throw new Exception("Cave bytes are longer than standard allocation.");
         }
 
         IntPtr cavePointer = CreateCodeCave(ProcessName, StandardCaveSizeBytes);
@@ -156,7 +156,11 @@ public partial class MCCCursedHaloCE
         }
         finally
         {
-            NativeMethods.CloseHandle(hndProc);
+            var result = NativeMethods.CloseHandle(hndProc);
+            if (!result)
+            {
+                CcLog.Error("Failed to close a process handle");
+            }
         }
 
         return caveAddress;

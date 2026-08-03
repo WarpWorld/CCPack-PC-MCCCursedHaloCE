@@ -59,7 +59,7 @@ public partial class MCCCursedHaloCE
     private void CreatePeriodicStateChecker()
     {
         CcLog.Message("Create periodic injection checker.");
-        injectionCheckerTimer = new(500);
+        injectionCheckerTimer = new System.Timers.Timer(500);
         injectionCheckerTimer.Elapsed += OnPeriodicStateCheck;
         injectionCheckerTimer.AutoReset = true;
         injectionCheckerTimer.Enabled = true;

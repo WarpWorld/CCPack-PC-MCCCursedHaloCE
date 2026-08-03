@@ -26,7 +26,7 @@ public partial class MCCCursedHaloCE
 
         if(!TryGetIndirectByteArray(scriptVarPauseDetection_ch, 0, 4, out byte[] counterRawBytes))
         {
-            CcLog.Message("Could not retrieve the gameplay polling variable.");
+            CcLog.Debug("Could not retrieve the gameplay polling variable.");
         }
 
         int value = BitConverter.ToInt32(counterRawBytes, 0);

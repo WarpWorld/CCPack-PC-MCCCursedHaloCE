@@ -38,7 +38,7 @@ public partial class MCCCursedHaloCE
         halo1BaseAddress_ch = AddressChain.ModuleBase(Connector, "halo1.dll");
         if (!halo1BaseAddress_ch.Calculate(out long halo1BaseAddress))
         {
-            throw new("Could not get halo1.dll base address");
+            throw new Exception("Could not get halo1.dll base address");
         }
 
         this.halo1BaseAddress = halo1BaseAddress;

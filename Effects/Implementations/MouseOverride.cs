@@ -8,6 +8,7 @@ public partial class MCCCursedHaloCE
     // Forces the mouse to move in a random direction every frame, up to maxRange distance. Every recoveryFrameInterval frames, the mouse is reset to its original position.
     public void ForceMouseShake(EffectRequest request, int maxRange, float controlFactor, int recoveryFrameInterval)
     {
+        Random rng = new Random();
         int dxToRecover = 0;
         int dyToRecover = 0;
         bool recoverFrame = false;
@@ -35,8 +36,8 @@ public partial class MCCCursedHaloCE
                 }
 
                 frameCounter++;
-                int dx = RNG.Next(-maxRange, maxRange);
-                int dy = RNG.Next(-maxRange, maxRange);
+                int dx = rng.Next(-maxRange, maxRange);
+                int dy = rng.Next(-maxRange, maxRange);
                 dxToRecover += dx;
                 dyToRecover += dy;
                 return keyManager.ForceMouseMove(dx, dy);

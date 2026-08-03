@@ -59,7 +59,7 @@ public partial class MCCCursedHaloCE
         UndoInjection(FullerAutoId);
         if (!WeaponClipAmmoPointer_ch.Calculate(out long pointerAddress))
         {
-            throw new("Could not read weapon clip ammo pointer");
+            throw new Exception("Could not read weapon clip ammo pointer");
         }
         InjectInstantShots(pointerAddress);
         InjectNeverReloading();

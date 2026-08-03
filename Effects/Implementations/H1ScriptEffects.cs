@@ -27,7 +27,7 @@ public partial class MCCCursedHaloCE
         }
     }
 
-    private static ConcurrentQueue<OneShotH1EffectQueueing> oneShotEffectQueue = new();
+    private static ConcurrentQueue<OneShotH1EffectQueueing> oneShotEffectQueue = new ConcurrentQueue<OneShotH1EffectQueueing>();
     private static System.Timers.Timer oneShotEffectSpacingTimer;
 
     public void InitializeOneShotEffectQueueing()
@@ -41,7 +41,7 @@ public partial class MCCCursedHaloCE
         }
 
         CcLog.Message("Initializing oneshoteffectqueueing.");
-        oneShotEffectSpacingTimer = new(33); // 30 frames per second, the iteration speed of continuous H1 scripts.
+        oneShotEffectSpacingTimer = new System.Timers.Timer(33); // 30 frames per second, the iteration speed of continuous H1 scripts.
         oneShotEffectSpacingTimer.Elapsed += TryApplyQueuedEffect;
         oneShotEffectSpacingTimer.AutoReset = true;
         oneShotEffectSpacingTimer.Enabled = true;
@@ -89,7 +89,7 @@ public partial class MCCCursedHaloCE
     /// <remarks>Use this when applying the effect from within another effect.</remarks> 
     public void QueueOneShotEffect(short code, int durationInMs, Action additionalStartingAction = null, string message = null)
     {
-        oneShotEffectQueue.Enqueue(new(code, durationInMs, additionalStartingAction, message));
+        oneShotEffectQueue.Enqueue(new OneShotH1EffectQueueing(code, durationInMs, additionalStartingAction, message));
     }
 
     /// <summary>
@@ -116,7 +116,7 @@ public partial class MCCCursedHaloCE
 
         string? mutex = slot switch
         {
-            _ => null,
+            _ => Guid.NewGuid().ToString(),
         };
 
         Action additionalStartAction = slot switch
@@ -166,7 +166,7 @@ public partial class MCCCursedHaloCE
             //15 => new string[] { EffectMutex.Gravity },
             //17 => new string[] { EffectMutex.ObjectLightScale },
             //18 => new string[] { EffectMutex.ObjectLightScale },
-            _ => null,
+            _ => [Guid.NewGuid().ToString()],
         };
 
         Action additionalStartAction = effect switch

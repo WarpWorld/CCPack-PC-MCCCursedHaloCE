@@ -43,7 +43,7 @@ public partial class MCCCursedHaloCE
     /// </summary>
     private bool TrySetIndirectFloat(float newValue, AddressChain valuePointerPointer_ch, int offset, bool isRelative)
     {
-        Func<AddressChain, (bool, float)> tryGetter = (pointerPointer_ch) => (pointerPointer_ch.TryGetFloat(out float oldValue), oldValue);
+        Func<AddressChain, (bool, float)> tryGetter = (pointerPointer_ch) => (pointerPointer_ch.TryGetFloat(out float oldValue), oldValue); ;
         Func<AddressChain, float, bool> trySetter = (pointerPointer_ch, newValue) => pointerPointer_ch.TrySetFloat(newValue);
         Func<float, float, float> adder = (a, b) => a + b;
 

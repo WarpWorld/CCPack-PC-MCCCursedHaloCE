@@ -8,9 +8,10 @@ public partial class MCCCursedHaloCE
     // Applies a random force to the player. Negative vertical (Z) forces are avoided by default to avoid smashing the player against the ground to death.
     private void ApplyRandomForce(float maxX, float maxY, float maxZ, bool allowNegativeZ = false)
     {
-        float x = GenerateRandomFloat(RNG, maxX, true);
-        float y = GenerateRandomFloat(RNG, maxY, true);
-        float z = GenerateRandomFloat(RNG, maxZ, allowNegativeZ);
+        Random rng = new Random();
+        float x = GenerateRandomFloat(rng, maxX, true);
+        float y = GenerateRandomFloat(rng, maxY, true);
+        float z = GenerateRandomFloat(rng, maxZ, allowNegativeZ);
 
         ApplyForce(x, y, z);
     }
