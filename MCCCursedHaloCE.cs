@@ -19,6 +19,7 @@ public partial class MCCCursedHaloCE : InjectEffectPack
 {
     private string? CachedStreamerName { get; set; } = null;
     private bool? cheatsEnabled = null;
+    private bool hasCheckedCheatStatus = false;
     private const string ProcessName = "MCC-Win64-Shipping";
     private CancellationTokenSource progressTrackerCancellationTokenSource = new CancellationTokenSource();
 
@@ -111,9 +112,20 @@ public partial class MCCCursedHaloCE : InjectEffectPack
         CcLog.Debug($"Gameplay pollling var cave location: " + scriptVarPauseDetection_ch?.Address.ToString("X"));
         CcLog.Debug($"Progress var cave location: " + raceProgressDetection_ch?.Address.ToString("X"));
 
-        // Cheat-status polling disabled: this ran a blocking HTTP GET against
-        // /Race/GetCheatStatus on every game-state tick and re-sent menu RPC updates.
-        // mercy/bettermercy keep whatever visibility the menu defines for them.
+        // Cheat status is queried exactly once per session, the first tick after the
+        // streamer name is known. CachedStreamerName is null until the first effect
+        // request arrives, so this stays inert until then.
+        if (!hasCheckedCheatStatus && CachedStreamerName != null)
+        {
+            hasCheckedCheatStatus = true;
+
+            bool enabled = AreCheatsEnabled(CachedStreamerName).GetAwaiter().GetResult();
+            var status = enabled ? EffectStatus.MenuVisible : EffectStatus.MenuHidden;
+            ReportStatus("mercy", status);
+            ReportStatus("bettermercy", status);
+            CcLog.Message($"Cheats {(enabled ? "enabled" : "disabled")} for " + CachedStreamerName);
+            cheatsEnabled = enabled;
+        }
         return base.GetGameState();
     }
 
