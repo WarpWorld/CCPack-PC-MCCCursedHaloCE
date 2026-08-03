@@ -18,7 +18,7 @@ namespace CrowdControl.Games.Packs.MCCCursedHaloCE;
 public partial class MCCCursedHaloCE : InjectEffectPack
 {
     private string? CachedStreamerName { get; set; } = null;
-    private bool cheatsEnabled = false;
+    private bool? cheatsEnabled = null;
     private const string ProcessName = "MCC-Win64-Shipping";
     private CancellationTokenSource progressTrackerCancellationTokenSource = new CancellationTokenSource();
 
@@ -109,26 +109,11 @@ public partial class MCCCursedHaloCE : InjectEffectPack
 
         CcLog.Debug($"Effect trigger var cave location: " + scriptVarInstantEffectsPointerPointer_ch?.Address.ToString("X"));
         CcLog.Debug($"Gameplay pollling var cave location: " + scriptVarPauseDetection_ch?.Address.ToString("X"));
-        CcLog.Debug($"Progress var cave location: " + raceProgressDetection_ch.Address.ToString("X"));
+        CcLog.Debug($"Progress var cave location: " + raceProgressDetection_ch?.Address.ToString("X"));
 
-        if (!cheatsEnabled && CachedStreamerName != null && AreCheatsEnabled(CachedStreamerName).GetAwaiter().GetResult())
-        {
-            ReportStatus("mercy", EffectStatus.MenuVisible);
-            ReportStatus("bettermercy", EffectStatus.MenuVisible);
-            CcLog.Message("Cheats enabled for " + CachedStreamerName);
-            cheatsEnabled = true;
-        }
-        else if (CachedStreamerName == null || !AreCheatsEnabled(CachedStreamerName).GetAwaiter().GetResult())
-        {
-            ReportStatus("mercy", EffectStatus.MenuHidden);
-            ReportStatus("bettermercy", EffectStatus.MenuHidden);
-            if (cheatsEnabled)
-            {
-                CcLog.Message("Cheats disabled for " + CachedStreamerName);
-                cheatsEnabled = false;
-            }
-            
-        }
+        // Cheat-status polling disabled: this ran a blocking HTTP GET against
+        // /Race/GetCheatStatus on every game-state tick and re-sent menu RPC updates.
+        // mercy/bettermercy keep whatever visibility the menu defines for them.
         return base.GetGameState();
     }
 
