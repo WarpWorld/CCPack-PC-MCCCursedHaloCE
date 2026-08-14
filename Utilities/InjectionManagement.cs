@@ -127,7 +127,7 @@ public partial class MCCCursedHaloCE
     }
 
     // Reserves a new space in memory in process of size cavesize, and returns a pointer to it.
-    private IntPtr CreateCodeCave(string process, int cavesize)
+    private unsafe IntPtr CreateCodeCave(string process, int cavesize)
     {
         // Near address does not seem to work, but I don't really need it I think.
         var proc = Process.GetProcessesByName(process)[0];
