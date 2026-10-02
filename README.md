@@ -4,7 +4,7 @@ This is an effect pack for doing Crowd Control on Halo CE and Cursed Halo CE.
 The master branch is the pack for Halo CE with the mod Cursed Halo Again. The pack for base halo is on the normalHalo branch.
 
 ## Installation
-Requires: 
+Requires:
 - Master Chief Collection on Steam. If you have it elsewhere, like Game Pass, look into how to install Steam Worshop mods on that version and it should work as well.
 - Cursed Halo Again, available in the Steam Workshop here: https://steamcommunity.com/sharedfiles/filedetails/?id=2962107814
    - Although many effects still work on the base Halo CE, some other require either parts of the mod, or custom effect scrip bundled with the mod. Use the build in the normalHalo branch if you want to play normal Halo CE.
@@ -60,3 +60,8 @@ CrowdControl framework is provided by CrowdControl ( https://crowdcontrol.live/ 
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
+
+## Repository layout
+
+- `MCCCursedHaloCE.cs` defines the pack.
+- `Effects/`, `Injections/`, `LifeCycle/`, and `Utilities/` contain its direct source.
